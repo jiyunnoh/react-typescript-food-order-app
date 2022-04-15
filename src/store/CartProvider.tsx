@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import CartContext from "./cart-context";
 
 type State = {
-    items: string[],
+    items: {id: string, name: string, amount: number, price: number}[],
     totalAmount: number
 }
 
@@ -33,7 +33,7 @@ const CartProvider = (props: { children: React.ReactNode }) => {
     const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);
 
     //TODO: item type
-    const addItemToCartHandler = (item: any) => {
+    const addItemToCartHandler = (item: object) => {
         dispatchCartAction({ type: 'ADD', item: item });
     };
 
