@@ -3,12 +3,13 @@ import CartContext from "../../../store/cart-context";
 import classes from "./MealItem.module.css";
 import MealItemForm from "./MealItemForm";
 
+//TODO: type으로 빼기.
 const MealItem = (props: { id: string; name: string; description: string; price: number; }) => {
     const cartCtx = useContext(CartContext);
 
     const price = `$${props.price.toFixed(2)}`;
 
-    const addToCartHandler = (amount: string) => {
+    const addToCartHandler = (amount: number) => {
         cartCtx.addItem({
             id: props.id,
             name: props.name,
