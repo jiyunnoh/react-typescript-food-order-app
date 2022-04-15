@@ -28,6 +28,7 @@ const Cart = (props: { onClose: MouseEventHandler }) => {
             )}
         </ul>
     );
+
     return (
         <Modal onClose={props.onClose}>
             {cartItems}
