@@ -1,14 +1,15 @@
 import React, { useReducer } from "react";
 import CartContext from "./cart-context";
 
-// type State = {
-//     items: string[],
-//     totalAmount: number
-// }
+type State = {
+    items: string[],
+    totalAmount: number
+}
 
-// type Action =
-//     | { type: 'ADD', item: any }
-//     | { type: 'REMOVE', id: string }
+//TODO: item type
+type Action =
+    | { type: 'ADD', item: any }
+    | { type: 'REMOVE', id: string }
 
 
 const defaultCartState = {
@@ -16,7 +17,7 @@ const defaultCartState = {
     totalAmount: 0
 }
 
-const cartReducer = (state: any, action: any) => {
+const cartReducer = (state: State, action: Action) => {
     if (action.type === 'ADD') {
         const updatedItems = state.items.concat(action.item);
         const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;
@@ -31,6 +32,7 @@ const cartReducer = (state: any, action: any) => {
 const CartProvider = (props: { children: React.ReactNode }) => {
     const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);
 
+    //TODO: item type
     const addItemToCartHandler = (item: any) => {
         dispatchCartAction({ type: 'ADD', item: item });
     };

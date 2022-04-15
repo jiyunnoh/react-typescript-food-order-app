@@ -6,7 +6,8 @@ import classes from "./HeaderCartButton.module.css";
 const HeaderCartButton = (props: { onClick: MouseEventHandler }) => {
     const cartCtx = useContext(CartContext);
 
-    const numberOfCartItmes = cartCtx.items.reduce((curNumber, item: any) => {
+    //TODO: item type
+    const numberOfCartItmes = cartCtx.items.reduce<number>((curNumber, item: any ) => {
         return curNumber + item.amount
     }, 0);
     return <button className={classes.button} onClick={props.onClick}>
