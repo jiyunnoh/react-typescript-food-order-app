@@ -10,6 +10,7 @@ type State = {
 type Action =
     | { type: 'ADD', item: any }
     | { type: 'REMOVE',  id: string }
+    | { type: 'CLEAR' }
 
 
 const defaultCartState = {
@@ -65,13 +66,17 @@ const cartReducer = (state: State, action: Action) => {
             totalAmount: updatedTotalAmount
         }
     }
+
+    if (action.type === 'CLEAR') {
+        return defaultCartState;
+    }
+
     return defaultCartState;
 };
 
 const CartProvider = (props: { children: React.ReactNode }) => {
     const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);
 
-    //TODO: item type
     const addItemToCartHandler = (item: object) => {
         dispatchCartAction({ type: 'ADD', item: item });
     };
@@ -80,11 +85,16 @@ const CartProvider = (props: { children: React.ReactNode }) => {
         dispatchCartAction({ type: 'REMOVE', id: id });
     };
 
+    const clearCartHandler = () => {
+        dispatchCartAction({type: 'CLEAR'});
+    }
+
     const cartContext = {
         items: cartState.items,
         totalAmount: cartState.totalAmount,
         addItem: addItemToCartHandler,
-        removeItem: removeItemFromCartHandler
+        removeItem: removeItemFromCartHandler,
+        clearCart: clearCartHandler
     }
     return <CartContext.Provider value={cartContext}>
         {props.children}
