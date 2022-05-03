@@ -4,7 +4,14 @@ import classes from './Checkout.module.css';
 const isEmpty = (value: string) => value.trim() === '';
 const isFiveChars = (value: string) => value.trim().length === 5;
 
-const Checkout = (props: { onCancel: React.MouseEventHandler<HTMLButtonElement> | undefined; }) => {
+export type UserType = {
+    name: string; 
+    street: string; 
+    city: string; 
+    postalCode: string;
+}
+
+const Checkout = (props: { onConfirm: (arg0: UserType) => void, onCancel: React.MouseEventHandler<HTMLButtonElement> | undefined; }) => {
     const [formInputsValidity, setFormInputsValidity] = useState({
         name: true,
         street: true,
@@ -46,6 +53,13 @@ const Checkout = (props: { onCancel: React.MouseEventHandler<HTMLButtonElement> 
         if (!formIsValid) {
             return;
         };
+
+        props.onConfirm({
+            name: enteredName,
+            street: enteredStreet,
+            city: enteredCity,
+            postalCode: enteredPostalCode
+        });
     };
 
     const nameControlClasses = `${classes.control} ${formInputsValidity.name ? '' : classes.invalid}`;

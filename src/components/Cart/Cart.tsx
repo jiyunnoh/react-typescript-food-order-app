@@ -4,6 +4,7 @@ import Modal from "../UI/Modal";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
+import { UserType } from "./Checkout";
 
 const Cart = (props: { onClose: MouseEventHandler }) => {
     const [isCheckout, setIsCheckout] = useState(false);
@@ -22,6 +23,16 @@ const Cart = (props: { onClose: MouseEventHandler }) => {
 
     const orderHandler = () => {
         setIsCheckout(true);
+    };
+
+    const submitOrderHandler = (userData: UserType) => {
+        fetch('https://react-http-484a5-default-rtdb.firebaseio.com/orders.json', {
+            method: 'POST',
+            body: JSON.stringify({
+                user: userData,
+                orderedItems: cartCtx.items
+            })
+        });
     };
 
     const cartItems = (
@@ -53,7 +64,7 @@ const Cart = (props: { onClose: MouseEventHandler }) => {
                 <span>Total Amount</span>
                 <span>{totalAmount}</span>
             </div>
-            {isCheckout && <Checkout onCancel={props.onClose} />}
+            {isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />}
             {!isCheckout && modalActions}
         </Modal>
     );
